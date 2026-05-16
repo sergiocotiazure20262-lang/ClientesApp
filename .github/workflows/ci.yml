@@ -6,21 +6,23 @@ on:
 
 jobs:
   build:
+    name: Build e Push da imagem Docker
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout
+      - name: Baixar código do repositório
         uses: actions/checkout@v4
 
-      - name: Login Docker Hub
+      - name: Login no Docker Hub
         uses: docker/login-action@v3
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      - name: Build e Push
+      - name: Build e Push da imagem
         uses: docker/build-push-action@v5
         with:
           context: .
+          file: ./ClientesApp.API/Dockerfile
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/clientes-app:latest
