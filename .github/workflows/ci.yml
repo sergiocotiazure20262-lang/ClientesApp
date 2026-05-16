@@ -10,19 +10,23 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Baixar código do repositório
+      - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Login no Docker Hub
+      - name: Login Docker Hub
         uses: docker/login-action@v3
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      - name: Build e Push da imagem
-        uses: docker/build-push-action@v5
-        with:
-          context: .
-          file: ./ClientesApp.API/Dockerfile
-          push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/clientes-app:latest
+      - name: Build da imagem Docker
+        run: |
+          docker build \
+            --pull \
+            -f ClientesApp.API/Dockerfile \
+            -t ${{ secrets.DOCKERHUB_USERNAME }}/clientes-app:latest \
+            .
+
+      - name: Push para Docker Hub
+        run: |
+          docker push ${{ secrets.DOCKERHUB_USERNAME }}/clientes-app:latest
