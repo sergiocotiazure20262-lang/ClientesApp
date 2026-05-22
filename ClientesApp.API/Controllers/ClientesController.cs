@@ -84,6 +84,20 @@ namespace ClientesApp.API.Controllers
             return Ok(clientes);
         }
 
+        [HttpGet("buscar-por-nome")]
+        public async Task<IActionResult> GetByNomeAsync([FromQuery] string nome)
+        {
+            var clientes = await _dataContext.Clientes
+                            .Where(c => c.Nome.Contains(nome))
+                            .OrderByDescending(c => c.Nome)
+                            .ToListAsync();
+
+            if (!clientes.Any())
+                return NoContent();
+
+            return Ok(clientes);
+        }
+
         [HttpGet("{id}")]
         public async Task<IActionResult> GetByIdAsync(Guid id)
         {
