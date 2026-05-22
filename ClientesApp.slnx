@@ -1,6 +1,9 @@
 <Solution>
   <Folder Name="/Itens de Solução/">
     <File Path=".github/workflows/ci.yml" />
+    <File Path="k8s/deployment.yml" />
+    <File Path="k8s/namespace.yml" />
+    <File Path="k8s/service.yml" />
   </Folder>
   <Project Path="ClientesApp.API/ClientesApp.API.csproj" />
   <Project Path="docker-compose.dcproj">
